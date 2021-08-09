@@ -1,0 +1,45 @@
+//noinspection GroovyAssignabilityCheck
+def repoName
+def repoURL
+def branchName
+
+pipeline {
+    agent any
+    
+    stages {
+	
+		stage('SCM Checkout'){
+		steps {
+			script {
+			def scmVars = checkout([
+			$class: 'GitSCM'
+			])
+			echo "env.GIT_COMMIT"
+			echo "${env.GIT_COMMIT}"
+			}
+			checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/conan-io/examples.git']]])
+        
+                
+			}
+			}
+        stage('Conan build and upload repository'){
+        
+        steps{
+            script {
+            sh '''#!/bin/bash -l
+            conan profile new default --detect
+			conan profile update settings.compiler.libcxx=libstdc++11 default
+			mkdir build && cd build
+			conan install ..
+			cmake .. -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release
+			cmake --build .
+			conan search
+			conan user -p Welcome@123 -r conan2 admin
+			conan upload poco/1.9.4 -r conan2 --all
+        
+            '''
+        }
+        }
+        }
+    }
+}
