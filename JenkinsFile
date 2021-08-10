@@ -41,9 +41,9 @@ pipeline {
         
             	'''
 		}
-		finally {
-             sh "echo Build Sucess"
-          }
+		catch (err){
+      echo "Sucess"
+   }
         }
         }
         }
