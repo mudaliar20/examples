@@ -26,6 +26,7 @@ pipeline {
         
         steps{
             script {
+	    try{
             sh '''#!/bin/bash -l
             	conan profile new default --detect
 		conan profile update settings.compiler.libcxx=libstdc++11 default
@@ -39,6 +40,10 @@ pipeline {
 		conan upload poco/1.9.4 -r conan2 --all -c
         
             	'''
+		}
+		finally {
+             sh "echo Build Sucess"
+          }
         }
         }
         }
