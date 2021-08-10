@@ -36,7 +36,7 @@ pipeline {
 		cmake --build .
 		conan remote add conan2 http://jfrog.ford.dcpgreendot.com:8082/artifactory/conan2 false
 		conan search
-		conan upload poco/1.9.4 -r conan2 --all
+		conan upload poco/1.9.4 -r conan2 --all -c
         
             	'''
         }
