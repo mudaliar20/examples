@@ -29,6 +29,9 @@ pipeline {
             sh '''#!/bin/bash -l
             	conan profile new default --detect
 		conan profile update settings.compiler.libcxx=libstdc++11 default
+		cd $WORKSPACE/libraries/poco/md5
+		mkdir build && cd build
+		conan install ..
 		cmake .. -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release
 		cmake --build .
 		conan search
