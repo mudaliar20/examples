@@ -27,17 +27,14 @@ pipeline {
         steps{
             script {
             sh '''#!/bin/bash -l
-            conan profile new default --detect
-			conan profile update settings.compiler.libcxx=libstdc++11 default
-			mkdir build && cd build
-			conan install ..
-			cmake .. -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release
-			cmake --build .
-			conan search
-			conan user -p Welcome@123 -r conan2 admin
-			conan upload poco/1.9.4 -r conan2 --all
+            	conan profile new default --detect
+		conan profile update settings.compiler.libcxx=libstdc++11 default
+		cmake .. -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release
+		cmake --build .
+		conan search
+		conan upload poco/1.9.4 -r conan2 --all
         
-            '''
+            	'''
         }
         }
         }
